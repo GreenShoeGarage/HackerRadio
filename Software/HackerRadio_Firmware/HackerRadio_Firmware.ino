@@ -28,7 +28,7 @@ void sendClientWebpage() {
   s += "Content-Type: text/html\r\n\r\n";
   s += "<!DOCTYPE HTML>\r\n<html>\r\n";
   s += "<form action=";
-  s += "/changefrequency\">\r\n";
+  s += "\"/changefrequency\">\r\n";
   s += "<label for=\"frequency\">Frequency:</label><br>\r\n";
   s += "<input type=\"text\" id=\"frequency\" name=\"frequency\" value=\"10230\"><br>\r\n";
   s += "<input type=\"submit\" value=\"Submit\">\r\n";
@@ -67,11 +67,9 @@ void sendClientWebpage() {
 void printRadioInfo() {
   radio.readTuneStatus();
   Serial.print("Curr freq: ");
-  Serial.print(radio.currFreq);
-  Serial.print("\tCurr ASQ: 0x");
-  Serial.print(radio.currASQ, HEX);
-  Serial.print("\tCurr InLevel:");
-  Serial.println(radio.currInLevel);
+  Serial.print(radio.currFreq/100); Serial.print("."); Serial.print(radio.currFreq%100); Serial.print(" MHz");
+  Serial.print("\tCurr ASQ: 0x");   Serial.print(radio.currASQ, HEX);
+  Serial.print("\tCurr InLevel:");  Serial.println(radio.currInLevel);
 }
 
 
@@ -145,7 +143,7 @@ void initWifi() {
   Serial.print("IP address:\t");
   Serial.println(WiFi.softAPIP());         // Send the IP address of the ESP8266 to the computer
 
-  server.on("/changefrequency%22", HTTP_GET, handleChangeRadioFrequencyRequest);
+  server.on("/changefrequency", HTTP_GET, handleChangeRadioFrequencyRequest);
   server.on("/", HTTP_GET, sendClientWebpage);
   server.begin();
   Serial.println(F("Wifi connection...SUCCESS"));
