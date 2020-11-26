@@ -25,3 +25,27 @@ https://www.adafruit.com/product/1958
 
 Example of the HTTP request:
 http://192.168.4.1/changefrequency?frequency=10230
+
+
+""" Using with a NodeMCU
+
+You must edit the Adafruit_Si4713.cpp file to work with NodeMCU
+Add a line to bool Adafruit_Si4713::begin(uint8_t addr, TwoWire *theWire)
+
+bool Adafruit_Si4713::begin(uint8_t addr, TwoWire *theWire) {
+  _i2caddr = addr;
+  _wire = theWire;
+
+  _wire->pins(4,5);  //Only use for NodeMCU <===================Add Me!
+  _wire->begin();
+
+  reset();
+
+  powerUp();
+
+  // check for Si4713
+  if (getRev() != 13)
+    return false;
+
+  return true;
+}
