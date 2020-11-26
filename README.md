@@ -30,22 +30,21 @@ http://192.168.4.1/changefrequency?frequency=10230
 ## Using with a NodeMCU
 
 - You must edit the Adafruit_Si4713.cpp file to work with NodeMCU
-- Add a line to bool Adafruit_Si4713::begin(uint8_t addr, TwoWire *theWire)
+- Add a new line to: bool Adafruit_Si4713::begin(uint8_t addr, TwoWire *theWire)
 
 bool Adafruit_Si4713::begin(uint8_t addr, TwoWire *theWire) {
-  _i2caddr = addr;
-  _wire = theWire;
+ _i2caddr = addr;
+ _wire = theWire;
 
-  _wire->pins(4,5);  //Only use for NodeMCU <===================Add Me!
-  _wire->begin();
+ _wire->pins(4,5);  //Only use for NodeMCU <===================Add Me!
+ _wire->begin();
 
-  reset();
+ reset();
+ powerUp();
 
-  powerUp();
-
-  // check for Si4713
-  if (getRev() != 13)
+ // check for Si4713
+ if (getRev() != 13)
     return false;
 
-  return true;
+ return true;
 }
