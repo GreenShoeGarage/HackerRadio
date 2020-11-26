@@ -27,10 +27,10 @@ Example of the HTTP request:
 http://192.168.4.1/changefrequency?frequency=10230
 
 
-""" Using with a NodeMCU
+## Using with a NodeMCU
 
-You must edit the Adafruit_Si4713.cpp file to work with NodeMCU
-Add a line to bool Adafruit_Si4713::begin(uint8_t addr, TwoWire *theWire)
+- You must edit the Adafruit_Si4713.cpp file to work with NodeMCU
+- Add a line to bool Adafruit_Si4713::begin(uint8_t addr, TwoWire *theWire)
 
 bool Adafruit_Si4713::begin(uint8_t addr, TwoWire *theWire) {
   _i2caddr = addr;
