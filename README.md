@@ -21,3 +21,6 @@ D2   ->  SCL
 7.  Enter a frequency and click submit  (For example 102.35MHz should be entered as 10235)
 8.  Tune FM radio to same frequency
 9.  Talk and listen
+
+Example of the HTTP request:
+http://192.168.4.1/changefrequency?frequency=10230
