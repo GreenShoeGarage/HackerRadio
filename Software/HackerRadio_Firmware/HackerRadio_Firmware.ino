@@ -27,6 +27,7 @@ void sendClientWebpage() {
   String s = "HTTP/1.1 200 OK\r\n";
   s += "Content-Type: text/html\r\n\r\n";
   s += "<!DOCTYPE HTML>\r\n<html>\r\n";
+  s += "<h1>HackerRadio v0.0.1</h1>";
   s += "<form action=";
   s += "\"/changefrequency\">\r\n";
   s += "<label for=\"frequency\">Frequency:</label><br>\r\n";
@@ -43,11 +44,13 @@ void sendClientWebpage() {
           change the value to 30.*/
   //s += "<meta http-equiv='refresh' content='1'/>\r\n";//auto refresh page
 
+  s += "<h2>";
   s += "Transmitting Frequency: ";
   s += String(FMSTATION / 100, DEC);
   s += ".";
   s += String(FMSTATION % 100, DEC);
-  s += "</html>\n";
+  s += " MHz";
+  s += "</h2></html>\n";
 
   // Send the response to the client
   server.send(200, "text/html", s);
