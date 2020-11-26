@@ -8,11 +8,12 @@ https://www.adafruit.com/product/1958
 1. Solder length of wire for antenna
 2. Wire up Si4713 breakout board to NodeMCU
 
-Node |  Si4713
-3V | VIN
-GND  | GND
-D1 | SDA
-D2 | SCL
+| Node |  Si4713 |
+| --- | --- |
+| 3V | VIN |
+| GND  | GND |
+| D1 | SDA |
+| D2 | SCL |
 
 3.  Connect TRS electret mic to Si4714 TRS jack
 4.  Upload firmware
