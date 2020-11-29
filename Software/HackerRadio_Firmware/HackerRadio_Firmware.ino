@@ -10,6 +10,18 @@
 #define BAUDRATE 9600
 #define MAX_TX_POWER 115  //88-115 MAX
 
+#define DEBUG
+
+#ifdef DEBUG
+#define DEBUG_PRINTLN(x)         Serial.println (x)
+#define DEBUG_PRINT(x)           Serial.print(x)
+#define DEBUG_PRINTHEX(x, HEX)   Serial.print(x, HEX)
+#else
+#define DEBUG_PRINTLN(x)
+#define DEBUG_PRINT(x)
+#define DEBUG_PRINTHEX(x, HEX)
+#endif
+
 Adafruit_Si4713 radio = Adafruit_Si4713(RESETPIN);
 
 ESP8266WebServer server(80);
@@ -22,7 +34,7 @@ unsigned int FMSTATION = 10230;      // 10230 == 102.30 MHz
 
 ///////////////////////////////////////////////////////////////////////////////////
 void sendClientWebpage() {
-  Serial.println(F("\nClient connected."));
+  DEBUG_PRINTLN(F("\nClient connected."));
   // Prepare the response. Start with the common header:
   String s = "HTTP/1.1 200 OK\r\n";
   s += "Content-Type: text/html\r\n\r\n";
@@ -55,7 +67,7 @@ void sendClientWebpage() {
   // Send the response to the client
   server.send(200, "text/html", s);
   delay(1);
-  Serial.println(F("Client disonnected."));
+  DEBUG_PRINTLN(F("Client disonnected."));
 
   // The client will actually be disconnected
   // when the function returns and 'client' object is detroyed
@@ -69,10 +81,10 @@ void sendClientWebpage() {
 ////////////////////////////////////////////////////////////////////////////////////
 void printRadioInfo() {
   radio.readTuneStatus();
-  Serial.print("Curr freq: ");
-  Serial.print(radio.currFreq/100); Serial.print("."); Serial.print(radio.currFreq%100); Serial.print(" MHz");
-  Serial.print("\tCurr ASQ: 0x");   Serial.print(radio.currASQ, HEX);
-  Serial.print("\tCurr InLevel:");  Serial.println(radio.currInLevel);
+  DEBUG_PRINT("Curr freq: ");
+  DEBUG_PRINT(radio.currFreq/100); DEBUG_PRINT("."); DEBUG_PRINT(radio.currFreq%100); DEBUG_PRINT(" MHz");
+  DEBUG_PRINT("\tCurr ASQ: 0x");   DEBUG_PRINTHEX(radio.currASQ, HEX);
+  DEBUG_PRINT("\tCurr InLevel:");  DEBUG_PRINTLN(radio.currInLevel);
 }
 
 
@@ -128,7 +140,7 @@ void loop() {
 void initSerial() {
   Serial.begin(BAUDRATE);
   delay(10);
-  Serial.println(F("\n\nWelcome to Hacker Radio v0.0.1"));
+  DEBUG_PRINTLN(F("\n\nWelcome to Hacker Radio v0.0.1"));
 }
 
 
@@ -136,20 +148,20 @@ void initSerial() {
 
 ///////////////////////////////////////////////////////////////////////////
 void initWifi() {
-  Serial.println(F("Initialzing wifi..."));
+  DEBUG_PRINTLN(F("Initialzing wifi..."));
   WiFi.mode(WIFI_AP);
   WiFi.softAP(ssid, password);             // Start the access point
-  Serial.print("Access Point \"");
-  Serial.print(ssid);
-  Serial.println("\" started");
+  DEBUG_PRINT("Access Point \"");
+  DEBUG_PRINT(ssid);
+  DEBUG_PRINTLN("\" started");
 
-  Serial.print("IP address:\t");
-  Serial.println(WiFi.softAPIP());         // Send the IP address of the ESP8266 to the computer
+  DEBUG_PRINT("IP address:\t");
+  DEBUG_PRINTLN(WiFi.softAPIP());         // Send the IP address of the ESP8266 to the computer
 
   server.on("/changefrequency", HTTP_GET, handleChangeRadioFrequencyRequest);
   server.on("/", HTTP_GET, sendClientWebpage);
   server.begin();
-  Serial.println(F("Wifi connection...SUCCESS"));
+  DEBUG_PRINTLN(F("Wifi connection...SUCCESS"));
 }
 
 
@@ -157,35 +169,35 @@ void initWifi() {
 
 ///////////////////////////////////////////////////////////////////////////////////////
 void initFmRadio() {
-  Serial.print(F("\n\nConnecting to FM radio..."));
+  DEBUG_PRINT(F("\n\nConnecting to FM radio..."));
   while (! radio.begin()) {  // begin with address 0x63 (CS high default)
-    Serial.println(F("FAILED! Couldn't find radio!"));
+    DEBUG_PRINTLN(F("FAILED! Couldn't find radio!"));
     //while (1);
   }
-  Serial.println("connected.");
+  DEBUG_PRINTLN("connected.");
 
   // Uncomment to scan power of entire range from 87.5 to 108.0 MHz
   /*
     for (uint16_t f  = 8750; f<10800; f+=10) {
     radio.readTuneMeasure(f);
-    Serial.print("Measuring "); Serial.print(f); Serial.print("...");
+    DEBUG_PRINT("Measuring "); DEBUG_PRINT(f); DEBUG_PRINT("...");
     radio.readTuneStatus();
-    Serial.println(radio.currNoiseLevel);
+    DEBUG_PRINTLN(radio.currNoiseLevel);
     }
   */
-  Serial.print(F("Tuning to: "));
-  Serial.println(FMSTATION);
+  DEBUG_PRINT(F("Tuning to: "));
+  DEBUG_PRINTLN(FMSTATION);
   radio.tuneFM(FMSTATION);
-  Serial.print(F("Setting TX power..."));
+  DEBUG_PRINT(F("Setting TX power..."));
   radio.setTXpower(MAX_TX_POWER);  // dBuV, 88-115 max
-  Serial.println(F("done."));
+  DEBUG_PRINTLN(F("done."));
   printRadioInfo();
 
   // begin the RDS/RDBS transmission
   radio.beginRDS();
   radio.setRDSstation("HackerRadio");
   radio.setRDSbuffer( "HackerRadio FTW!");
-  Serial.println("RDS on!\n\n");
+  DEBUG_PRINTLN("RDS on!\n\n");
 
   radio.setGPIOctrl(_BV(1) | _BV(2));  // set GP1 and GP2 to output
   radio.setGPIO((1 << 2) || (1 << 1));
