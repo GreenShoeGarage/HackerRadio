@@ -9,6 +9,8 @@
 #define RESETPIN 12
 #define BAUDRATE 9600
 #define MAX_TX_POWER 115  //88-115 MAX
+#define DEFAULT_FREQ 10230
+#define IP_PORT 80
 
 #define DEBUG
 
@@ -24,9 +26,9 @@
 
 Adafruit_Si4713 radio = Adafruit_Si4713(RESETPIN);
 
-ESP8266WebServer server(80);
+ESP8266WebServer server(IP_PORT);
 
-unsigned int FMSTATION = 10230;      // 10230 == 102.30 MHz
+unsigned int FMSTATION = DEFAULT_FREQ;      // 10230 == 102.30 MHz
 
 
 
