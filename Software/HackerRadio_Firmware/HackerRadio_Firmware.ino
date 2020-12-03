@@ -32,6 +32,9 @@ unsigned int FMSTATION = DEFAULT_FREQ; // 10230 == 102.30 MHz
 
 String hr_version = "v0.0.2";
 
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////
 void printRadioInfo()
 {
@@ -44,6 +47,9 @@ void printRadioInfo()
   DEBUG_PRINTLN(radio.currInLevel);
 }
 
+
+
+
 ////////////////////////////////////////////////////////////////////////////
 void setup()
 {
@@ -54,10 +60,18 @@ void setup()
   DEBUG_PRINTLN(F("\n\nWaiting for clients to connect..."));
 }
 
+
+
+
+
 ////////////////////////////////////////////////////////////////////////////
 void loop()
 {
 }
+
+
+
+
 
 //////////////////////////////////////////////////////////////////////////
 void initSerial()
@@ -67,6 +81,9 @@ void initSerial()
   DEBUG_PRINT(F("\n\nWelcome to Hacker Radio "));
   DEBUG_PRINTLN(hr_version);
 }
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////
 void initWifi()
@@ -81,28 +98,30 @@ void initWifi()
   DEBUG_PRINT("IP address:\t");
   DEBUG_PRINTLN(WiFi.softAPIP()); // Send the IP address of the ESP8266 to the computer
 
-  server.onNotFound([](AsyncWebServerRequest *request) {
+  server.serveStatic("/images/gsg.jpg", SPIFFS, "/images/gsg.jpg");
+  
+  server.onNotFound([](AsyncWebServerRequest * request) {
     request->send(404);
   });
 
-  server.on("/", HTTP_ANY, [](AsyncWebServerRequest *request) {
+  server.on("/", HTTP_ANY, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/index.html");
     DEBUG_PRINTLN(F("\n### Client connected."));
   });
 
-  server.on("/index", HTTP_ANY, [](AsyncWebServerRequest *request) {
+  server.on("/index", HTTP_ANY, [](AsyncWebServerRequest * request) {
     request->send(SPIFFS, "/index.html");
     DEBUG_PRINTLN(F("\n### Client connected."));
   });
 
-  server.on("/getcurrentfrequency", HTTP_ANY, [](AsyncWebServerRequest *request) {
+  server.on("/getcurrentfrequency", HTTP_ANY, [](AsyncWebServerRequest * request) {
     String s = String(FMSTATION / 100);
     s += ".";
     s += String(FMSTATION % 100);
     request->send(200, "plain/text", s);
   });
 
-  server.on("/changefrequency", HTTP_ANY, [](AsyncWebServerRequest *request) {
+  server.on("/changefrequency", HTTP_ANY, [](AsyncWebServerRequest * request) {
     if (request->hasParam("frequency"), true)
     {
       AsyncWebParameter *param = request->getParam("frequency", false);
@@ -124,6 +143,11 @@ void initWifi()
   server.begin();
   DEBUG_PRINTLN(F("Wifi connection...SUCCESS"));
 }
+
+
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////
 void initFmRadio()
@@ -167,6 +191,10 @@ void initFmRadio()
   radio.setGPIO((1 << 2) || (1 << 1));
 }
 
+
+
+
+
 /////////////////////////////////////////////////////
 void initSPIFFS()
 {
@@ -177,6 +205,10 @@ void initSPIFFS()
   }
 }
 
+
+
+
+/////////////////////////////////////////////////////
 void printFrequency(int frequency)
 {
   DEBUG_PRINT(frequency / 100);
