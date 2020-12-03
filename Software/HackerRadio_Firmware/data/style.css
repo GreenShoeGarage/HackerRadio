@@ -7,44 +7,45 @@ html {
   font-family: Arial;
   display: inline-block;
   margin: 0px auto;
-  text-align: center;
+  text-align: left;
 }
 
 h1 {
-  color: #0F3376;
-  padding: 2vh;
+  color: #07851c;
+  /*padding: 1vh;*/
 }
 
-p {
-  font-size: 1.5rem;
+p.a {
+  font-size: 1.0rem;
+  font-weight: bold;
 }
 
-.button {
-  display: inline-block;
-  background-color: #008CBA;
+p.b {
+  font-size: 1.0rem;
+  font-style: italic;
+}
+
+input[type=submit] {
+  background-color: #2c882f;
   border: none;
-  border-radius: 4px;
   color: white;
-  padding: 16px 40px;
+  padding: 16px 32px;
   text-decoration: none;
-  font-size: 30px;
-  margin: 2px;
+  margin: 4px 2px;
   cursor: pointer;
 }
 
-.button2 {
-  background-color: #f44336;
-}
 
 .units {
-  font-size: 1.2rem;
+  font-size: 1.0rem;
 }
 
-.sensor-labels {
+.status-labels {
   font-size: 1.5rem;
-  vertical-align: middle;
-  padding-bottom: 15px;
+  font-weight: bold;
 }
+
+
 
 .slidecontainer {
   width: 100%;
@@ -52,7 +53,7 @@ p {
 
 .slider {
   -webkit-appearance: none;
-  width: 100%;
+  width: 40%;
   height: 25px;
   background: #d3d3d3;
   outline: none;
