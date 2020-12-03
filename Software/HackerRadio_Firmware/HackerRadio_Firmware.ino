@@ -7,7 +7,7 @@
 
 #define RESETPIN 12
 #define BAUDRATE 115200
-#define MAX_TX_POWER 95 //MIN 88-115 MAX
+#define DEFAULT_TXPOWER 95 //MIN 88-115 MAX
 #define DEFAULT_FREQ 10230 //MIN 8800-10800 MAX
 #define TCP_PORT 80
 
@@ -28,7 +28,7 @@ Adafruit_Si4713 radio = Adafruit_Si4713(RESETPIN);
 AsyncWebServer server(TCP_PORT);
 
 unsigned int FMSTATION = DEFAULT_FREQ; // 10230 == 102.30 MHz
-unsigned int TXPOWER = MAX_TX_POWER;
+unsigned int TXPOWER = DEFAULT_TXPOWER;
 
 String hr_version = "v0.0.2";
 
@@ -216,7 +216,7 @@ void initFmRadio()
     printFrequency(FMSTATION);
     radio.tuneFM(FMSTATION);
     DEBUG_PRINT(F("\nSetting TX power to: "));
-    DEBUG_PRINT(MAX_TX_POWER);
+    DEBUG_PRINT(TXPOWER);
     DEBUG_PRINTLN(F(" dBuV"));
     radio.setTXpower(TXPOWER); // dBuV, 88-115 max
     printRadioInfo();
