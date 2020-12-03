@@ -5,6 +5,9 @@ NodeMCU + I2C-controlled FM Transmitter + AP Mode + TRS Electret Microphone = Re
 Adafruit Stereo FM Transmitter with RDS/RBDS Breakout - Si4713
 https://www.adafruit.com/product/1958
 
+You must also download this tool to the Arduino IDE: https://github.com/esp8266/arduino-esp8266fs-plugin  
+This will allow you to upload the .HTML, and .CSS files  
+
 1. Solder length of wire for antenna
 2. Wire up Si4713 breakout board to NodeMCU. Audio device must be transmitting at line level, mic level audio sources will not work.
 
