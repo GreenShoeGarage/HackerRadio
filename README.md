@@ -8,6 +8,11 @@ https://www.adafruit.com/product/1958
 You must also download this tool to the Arduino IDE: https://github.com/esp8266/arduino-esp8266fs-plugin  
 This will allow you to upload the .HTML, and .CSS files  
 
+You will also need these two libraries:  
+https://github.com/me-no-dev/ESPAsyncTCP  
+https://github.com/me-no-dev/ESPAsyncWebServer  
+
+
 1. Solder length of wire for antenna
 2. Wire up Si4713 breakout board to NodeMCU. Audio device must be transmitting at line level, mic level audio sources will not work.
 
