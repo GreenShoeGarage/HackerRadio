@@ -59,7 +59,8 @@ void printRadioInfo()
 void setup()
 {
   initSerial();
-  initWifi();
+  initWifiAP();
+  initServer();
   initSPIFFS();
   initFmRadio();
   DEBUG_PRINTLN(F("\n\nWaiting for clients to connect..."));
@@ -82,7 +83,7 @@ void initSerial()
 }
 
 ///////////////////////////////////////////////////////////////////////////
-void initWifi()
+void initWifiAP()
 {
   DEBUG_PRINTLN(F("Establishing WiFi AP..."));
   WiFi.mode(WIFI_AP);
@@ -90,10 +91,15 @@ void initWifi()
   DEBUG_PRINT("Access Point \"");
   DEBUG_PRINT(ssid);
   DEBUG_PRINTLN("\" started");
-
   DEBUG_PRINT("IP address:\t");
   DEBUG_PRINTLN(WiFi.softAPIP()); // Send the IP address of the ESP8266 to the computer
+  DEBUG_PRINTLN(F("WiFi AP established."));
+}
 
+///////////////////////////////////////////////////////////////////////////////////
+void initServer()
+{
+  DEBUG_PRINTLN(F("Starting server..."));
   server.serveStatic("/images/gsg.jpg", SPIFFS, "/images/gsg.jpg");
 
   server.onNotFound([](AsyncWebServerRequest *request) {
@@ -133,11 +139,13 @@ void initWifi()
       printFrequency(NEW_FMSTATION);
       DEBUG_PRINTLN("");
 
-      if(NEW_FMSTATION >= 8800 && NEW_FMSTATION <= 10800) {
+      if (NEW_FMSTATION >= 8800 && NEW_FMSTATION <= 10800)
+      {
         FMSTATION = NEW_FMSTATION;
         radio.tuneFM(FMSTATION);
       }
-      else {
+      else
+      {
         DEBUG_PRINTLN(F("!!! ERROR: Invalid frequency selected. Must be between 88 and 108 MHz."));
       }
 
@@ -173,7 +181,7 @@ void initWifi()
   });
 
   server.begin();
-  DEBUG_PRINTLN(F("WiFi AP established."));
+  DEBUG_PRINTLN(F("Server is running."));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
