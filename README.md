@@ -28,7 +28,7 @@ This will allow you to upload the .HTML, and .CSS files
 9.  Talk and listen
 
 Example of the HTTP POST request:
-http://192.168.4.1/changefrequency?frequency=10230
+http://192.168.4.1/changefrequency?newfrequency=10230
 
 
 ## Using with a NodeMCU
