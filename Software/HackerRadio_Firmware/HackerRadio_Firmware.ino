@@ -116,6 +116,10 @@ void initServer()
     DEBUG_PRINTLN(F("\n### Client connected."));
   });
 
+  server.on("/style.css", HTTP_ANY, [](AsyncWebServerRequest *request) {
+    request->send(SPIFFS, "/style.css");
+  });
+
   server.on("/getcurrentfrequency", HTTP_ANY, [](AsyncWebServerRequest *request) {
     String s = String(FMSTATION / 100);
     s += ".";
