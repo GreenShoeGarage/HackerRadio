@@ -57,6 +57,7 @@ void setup() {
   initWifi();
   initSPIFFS();
   initFmRadio();
+  DEBUG_PRINTLN(F("\n\nWaiting for clients to connect..."));
 }
 
 
