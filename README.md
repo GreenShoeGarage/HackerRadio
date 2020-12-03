@@ -27,7 +27,7 @@ This will allow you to upload the .HTML, and .CSS files
 8.  Tune FM radio to same frequency
 9.  Talk and listen
 
-Example of the HTTP request:
+Example of the HTTP POST request:
 http://192.168.4.1/changefrequency?frequency=10230
 
 
