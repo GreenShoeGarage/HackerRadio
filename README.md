@@ -14,6 +14,7 @@ https://www.adafruit.com/product/1958
 | GND  | GND |
 | D1 | SDA |
 | D2 | SCL |
+| D6 | RST |
 
 3.  Connect TRS electret mic to Si4714 TRS jack
 4.  Upload firmware
