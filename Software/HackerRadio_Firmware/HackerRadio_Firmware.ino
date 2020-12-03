@@ -7,9 +7,9 @@
 
 #define RESETPIN 12
 #define BAUDRATE 115200
-#define MAX_TX_POWER 95 //88-115 MAX
-#define DEFAULT_FREQ 10230
-#define IP_PORT 80
+#define MAX_TX_POWER 95 //MIN 88-115 MAX
+#define DEFAULT_FREQ 10230 //MIN 8800-10800 MAX
+#define TCP_PORT 80
 
 #define DEBUG
 
@@ -25,7 +25,7 @@
 
 Adafruit_Si4713 radio = Adafruit_Si4713(RESETPIN);
 
-AsyncWebServer server(IP_PORT);
+AsyncWebServer server(TCP_PORT);
 
 unsigned int FMSTATION = DEFAULT_FREQ; // 10230 == 102.30 MHz
 unsigned int TXPOWER = MAX_TX_POWER;
