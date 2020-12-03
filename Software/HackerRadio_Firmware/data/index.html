@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="style.css">
     <title>GSG HackerRadio v0.0.2</title>
 </head>
 
@@ -10,8 +11,8 @@
     <h1>HackerRadio v0.0.2</h1><br>
     <h2>Set TX Frequency</h2>
     <form action="/changefrequency" onSubmit="console.log('LOG: Sending request to set frequency to: '+document.getElementById('newfrequency').value)">
-        <p.b>Example: Enter 102.35MHz as 10235; 99.5MHz as 9950</p.b><br><br>
-        <label for="newfrequency">New Frequency:</label>
+        <p class="b">Example: Enter 102.35MHz as 10235; 99.5MHz as 9950</p>
+        <label for="newfrequency"><p class="a">New Frequency (between 88.0 and 108.0):</p></label>
         <input type="text" id="newfrequency" name="newfrequency" value="10250"><br>
         <input type="submit" value="Submit New Frequency">
     </form>
@@ -19,28 +20,27 @@
 
 
     <h2>Set TX Power</h2>
-
     <form action="/changetxpower" onSubmit="console.log('LOG: Sending request to set TX power to: '+document.getElementById('newtxpower').value)">
-        <label for="newtxpower">TX Power (between 88 and 115):</label>
-        <input type="range" id="newtxpower" name="newtxpower" value="95" min="88" max="115"
+        <label for="newtxpower"><p class="a">TX Power (between 88 and 115):</p></label>
+        <input type="range" id="newtxpower" name="newtxpower" value="95" min="88" max="115" class="slider"
             oninput="this.nextElementSibling.value = this.value">
         <output>95</output>
         <br>
-        <input type="submit" value="Submit New TX Power">
+        <input type="submit" class="submit" value="Submit New TX Power">
     </form>
     <br>
 
 
     <h2>Current System Status:</h2>
-    <p>
-        <span class="status-labels">Current TX Frequency: </span>
+    <p class="a">
+        <span class=".status-labels">Current TX Frequency: </span>
         <span id="currentfrequency">%CURRENTFREQUENCY%</span>
         <span class="units">MHz</span>
-        <br>
-        <span class="status-labels">Current TX Power: </span>
+        <br><br>
+        <span class=".status-labels">Current TX Power: </span>
         <span id="currenttxpower">%CURRENTTXPOWER%</span>
         <span class="units">dBuV</span>
-    </p>
+    </p.a>
 
 
 
@@ -70,6 +70,7 @@
         }, 1000);
     </script>
 
+    <br><br><br>
     <p>Make. Better. Perpetually. For Robin.</p>
 </body>
 
