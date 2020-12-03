@@ -7,22 +7,40 @@
 
 <body>
     <img src="/images/gsg.jpg" alt="GSG Logo">
-    <h1>HackerRadio v0.0.2</h1>
+    <h1>HackerRadio v0.0.2</h1><br>
+    <h2>Set TX Frequency</h2>
     <form action="/changefrequency">
-        <p.c>Enter New TX Frequency</p.c><br>
         <p.b>Example: Enter 102.35MHz as 10235; 99.5MHz as 9950</p.b><br><br>
-        <label for="frequency">New Frequency:</label>
-        <input type="text" id="frequency" name="frequency" value="10250"><br>
+        <label for="newfrequency">New Frequency:</label>
+        <input type="text" id="newfrequency" name="newfrequency" value="10250"><br>
         <input type="submit" value="Submit New Frequency">
     </form>
     <br><br>
 
-    <h2>Transmitting Frequency:</h2>
+
+    <h2>Set TX Power</h2>
+
+    <form action="/changetxpower">
+        <label for="newtxpower">TX Power (between 88 and 115):</label>
+        <input type="range" id="newtxpower" name="newtxpower" value="95" min="88" max="115" oninput="this.nextElementSibling.value = this.value">
+        <output>95</output>
+        <br>
+        <input type="submit" value="Submit New TX Power">
+    </form>
+    <br>
+
+
+    <h2>Current System Status:</h2>
     <p>
-        <span class="sensor-labels">Current TX Frequency</span>
+        <span class="status-labels">Current TX Frequency: </span>
         <span id="currentfrequency">%CURRENTFREQUENCY%</span>
         <span class="units">MHz</span>
+        <br>
+        <span class="status-labels">Current TX Power: </span>
+        <span id="currenttxpower">%CURRENTTXPOWER%</span>
+        <span class="units">dBuV</span>
     </p>
+
 
 
     <script>
@@ -37,5 +55,21 @@
             xhttp.send();
         }, 1000);
     </script>
+
+    <script>
+        setInterval(function () {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("currenttxpower").innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("GET", "getcurrenttxpower", true);
+            xhttp.send();
+        }, 1000);
+    </script>
+
+
 </body>
+
 </html>

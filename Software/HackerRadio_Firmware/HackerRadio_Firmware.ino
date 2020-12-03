@@ -5,10 +5,9 @@
 #include <Adafruit_Si4713.h> //must edit Adafruit_Si4713.cpp if using NodeMCU. Must edit the begin() function to change the I2C SDA and SCL pins    _wire->pins(4,5);
 #include "secrets.h"
 
-#define _BV(n) (1 << n)
 #define RESETPIN 12
 #define BAUDRATE 115200
-#define MAX_TX_POWER 115 //88-115 MAX
+#define MAX_TX_POWER 95 //88-115 MAX
 #define DEFAULT_FREQ 10230
 #define IP_PORT 80
 
@@ -29,6 +28,7 @@ Adafruit_Si4713 radio = Adafruit_Si4713(RESETPIN);
 AsyncWebServer server(IP_PORT);
 
 unsigned int FMSTATION = DEFAULT_FREQ; // 10230 == 102.30 MHz
+unsigned int TXPOWER = MAX_TX_POWER;
 
 String hr_version = "v0.0.2";
 
@@ -45,7 +45,9 @@ void printRadioInfo()
     DEBUG_PRINT("\tCurrent ASQ: 0x");
     DEBUG_PRINTHEX(radio.currASQ, HEX);
     DEBUG_PRINT("\tCurrent InLevel:");
-    DEBUG_PRINTLN(radio.currInLevel);
+    DEBUG_PRINT(radio.currInLevel);
+    DEBUG_PRINT("\tTX Power:");
+    DEBUG_PRINTLN(TXPOWER);
   }
   else
   {
@@ -75,6 +77,8 @@ void initSerial()
   delay(10);
   DEBUG_PRINT(F("\n\nWelcome to Hacker Radio "));
   DEBUG_PRINTLN(hr_version);
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, LOW);
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -113,18 +117,54 @@ void initWifi()
     request->send(200, "plain/text", s);
   });
 
+  server.on("/getcurrenttxpower", HTTP_ANY, [](AsyncWebServerRequest *request) {
+    String s = String(TXPOWER);
+    request->send(200, "plain/text", s);
+  });
+
   server.on("/changefrequency", HTTP_ANY, [](AsyncWebServerRequest *request) {
-    if (request->hasParam("frequency"), true)
+    if (request->hasParam("newfrequency"), true)
     {
-      AsyncWebParameter *param = request->getParam("frequency", false);
+      AsyncWebParameter *param = request->getParam("newfrequency", false);
       String param_string = param->value();
-      FMSTATION = param_string.toInt();
+      int NEW_FMSTATION = param_string.toInt();
 
       DEBUG_PRINT(F("\n### Received request to change frequency to: "));
-      printFrequency(FMSTATION);
+      printFrequency(NEW_FMSTATION);
       DEBUG_PRINTLN("");
 
-      radio.tuneFM(FMSTATION);
+      if(NEW_FMSTATION >= 8800 && NEW_FMSTATION <= 10800) {
+        FMSTATION = NEW_FMSTATION;
+        radio.tuneFM(FMSTATION);
+      }
+      else {
+        DEBUG_PRINTLN(F("!!! ERROR: Invalid frequency selected. Must be between 88 and 108 MHz."));
+      }
+
+      request->send(SPIFFS, "/index.html");
+      printRadioInfo();
+    }
+  });
+
+  server.on("/changetxpower", HTTP_ANY, [](AsyncWebServerRequest *request) {
+    if (request->hasParam("newtxpower"), true)
+    {
+      AsyncWebParameter *param = request->getParam("newtxpower", false);
+      String param_string = param->value();
+      unsigned int NEW_TXPOWER = param_string.toInt();
+
+      DEBUG_PRINT(F("\n### Received request to change TX power to: "));
+      DEBUG_PRINT(NEW_TXPOWER);
+      DEBUG_PRINTLN(F("dBuV"));
+      if (NEW_TXPOWER >= 88 && NEW_TXPOWER <= 115)
+      {
+        TXPOWER = NEW_TXPOWER;
+        radio.setTXpower(TXPOWER);
+      }
+      else
+      {
+        DEBUG_PRINTLN(F("!!! ERROR: TX power is limited to between 88 and 115 dBuV"));
+      }
 
       request->send(SPIFFS, "/index.html");
 
@@ -162,13 +202,15 @@ void initFmRadio()
     DEBUG_PRINTLN(radio.currNoiseLevel);
     }
   */
+    radio.setGPIOctrl((1 << 2) || (1 << 1));
+    radio.setGPIO((1 << 2) || (1 << 1));
     DEBUG_PRINT(F("Tuning to: "));
     printFrequency(FMSTATION);
     radio.tuneFM(FMSTATION);
     DEBUG_PRINT(F("\nSetting TX power to: "));
     DEBUG_PRINT(MAX_TX_POWER);
     DEBUG_PRINTLN(F(" dBuV"));
-    radio.setTXpower(MAX_TX_POWER); // dBuV, 88-115 max
+    radio.setTXpower(TXPOWER); // dBuV, 88-115 max
     printRadioInfo();
 
     // begin the RDS/RDBS transmission
@@ -177,9 +219,6 @@ void initFmRadio()
     radio.setRDSbuffer("HackerRadio FTW!");
     DEBUG_PRINTLN(F("RDS on!"));
     DEBUG_PRINTLN(F("Radio setup complete."));
-
-    radio.setGPIOctrl(_BV(1) | _BV(2)); // set GP1 and GP2 to output
-    radio.setGPIO((1 << 2) || (1 << 1));
   }
   else
   {
