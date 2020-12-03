@@ -6,7 +6,7 @@ Adafruit Stereo FM Transmitter with RDS/RBDS Breakout - Si4713
 https://www.adafruit.com/product/1958
 
 1. Solder length of wire for antenna
-2. Wire up Si4713 breakout board to NodeMCU
+2. Wire up Si4713 breakout board to NodeMCU. Audio device must be transmitting at line level, mic level audio sources will not work.
 
 | Node |  Si4713 |
 | --- | --- |
