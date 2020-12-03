@@ -30,7 +30,7 @@ AsyncWebServer server(TCP_PORT);
 unsigned int FMSTATION = DEFAULT_FREQ; // 10230 == 102.30 MHz
 unsigned int TXPOWER = DEFAULT_TXPOWER;
 
-String hr_version = "v0.0.2";
+String hr_version = "v0.0.3";
 
 bool isRadioConnected = false;
 
