@@ -8,6 +8,11 @@ html {
   display: inline-block;
   margin: 0px auto;
   text-align: left;
+  background-color: rgb(201, 192, 192);
+}
+
+img {
+  border: 5px solid #000000;
 }
 
 h1 {
@@ -27,7 +32,7 @@ p.b {
 
 input[type=submit] {
   background-color: #2c882f;
-  border: none;
+  border: 3px solid #000000;
   color: white;
   padding: 16px 32px;
   text-decoration: none;
@@ -57,11 +62,12 @@ input[type=submit] {
   -webkit-appearance: none;
   width: 40%;
   height: 75px;
-  background: #d3d3d3;
+  background: #8ddb7567;
   outline: none;
   opacity: 0.7;
   -webkit-transition: .2s;
   transition: opacity .2s;
+  border: 3px solid #000000;
 }
 
 .slider:hover {
@@ -73,14 +79,14 @@ input[type=submit] {
   appearance: none;
   width: 75px;
   height: 75px;
-  background: #4CAF50;
+  background: #2c882f;
   cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
   width: 75px;
   height: 75px;
-  background: #4CAF50;
+  background: #2c882f;
   cursor: pointer;
 }
 
@@ -95,7 +101,7 @@ input[type=text] {
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
-  border: 1px solid #ccc;
+  border: 3px solid #000000;
   border-radius: 4px;
   box-sizing: border-box;
   font-size: 1.5rem;
