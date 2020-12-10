@@ -45,4 +45,7 @@ http://192.168.4.1/changefrequency?newfrequency=10230
 _wire = theWire;  
 _wire->pins(4,5);  //ADD THIS LINE ONLY WHEN USING A NodeMCU <===================  
 _wire->begin();  
-...
+...  
+
+BOM  
+https://partsbox.com/mbparks/project/22hpb7c3a4jxg8dhe0753b87zm/bom  
