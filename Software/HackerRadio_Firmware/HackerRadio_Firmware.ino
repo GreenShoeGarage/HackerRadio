@@ -6,6 +6,7 @@
 #include <Adafruit_Si4713.h> //must edit Adafruit_Si4713.cpp if using NodeMCU. Must edit the begin() function to change the I2C SDA and SCL pins    _wire->pins(4,5);
 #include "secrets.h"
 
+// #DEFINE Definitions
 #define RESETPIN 12
 #define BAUDRATE 115200
 #define DEFAULT_TXPOWER 95 //MIN 88-115 MAX
