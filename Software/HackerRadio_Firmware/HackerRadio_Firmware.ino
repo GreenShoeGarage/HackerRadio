@@ -13,6 +13,8 @@
 #define DEFAULT_FREQ 10230 //MIN 8800-10800 MAX
 #define TCP_PORT 80
 
+
+// Control debugging via serial comms
 #define DEBUG
 
 #ifdef DEBUG
