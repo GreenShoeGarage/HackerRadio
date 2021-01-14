@@ -27,6 +27,9 @@
 #define DEBUG_PRINTHEX(x, HEX)
 #endif
 
+
+
+//Initialize devices
 Adafruit_Si4713 radio = Adafruit_Si4713(RESETPIN);
 
 AsyncWebServer server(TCP_PORT);
