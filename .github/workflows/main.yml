@@ -1,5 +1,9 @@
 on: [push, pull_request]
-recursive: true
+inputs:
+  recursive:
+    description: "Search path recursively for projects to check."
+    required: true
+    default: "true"
 jobs:
   lint:
     runs-on: ubuntu-latest
