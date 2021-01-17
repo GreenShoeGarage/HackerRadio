@@ -34,6 +34,9 @@ Adafruit_Si4713 radio = Adafruit_Si4713(RESETPIN);
 
 AsyncWebServer server(TCP_PORT);
 
+
+//Declare variables
+
 unsigned int FMSTATION = DEFAULT_FREQ; // 10230 == 102.30 MHz
 unsigned int TXPOWER = DEFAULT_TXPOWER;
 
